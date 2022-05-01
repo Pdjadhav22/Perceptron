@@ -1,13 +1,14 @@
 import numpy as np
 import os
 import joblib
+import logging
 
 class Perceptron:
   def __init__(self, eta: float=None, epochs: int=None):
     self.weights = np.random.rand(3)*1e-4 ## initialising random weights before training
     training = (eta is not None) and (epochs is not None)
     if training:
-      print(f"Initial weights before Training:\n{self.weights}")
+      logging.info(f"Initial weights before Training:\n{self.weights}")
     self.eta = eta
     self.epochs = epochs
 
@@ -25,18 +26,18 @@ class Perceptron:
     X_with_bias = np.c_[self.X,-np.ones((len(self.X),1))]
     
     for epoch in range(self.epochs):
-      print(f"for epoch>> {epoch+1}")
+      logging.info(f"for epoch>> {epoch+1}")
       z = self._ZOutcome_(X_with_bias,self.weights)
       y_hat = self.activation(z)
-      print(f"Predicted value after Forward Pass: {y_hat}")
+      logging.info(f"Predicted value after Forward Pass: {y_hat}")
 
       # Error Calculation
       self.error = self.y - y_hat
-      print(f'Error:\n{self.error}')
+      logging.info(f'Error:\n{self.error}')
 
       # Weight update
       self.weights = self.weights + self.eta* np.dot(X_with_bias.T,self.error)
-      print(f"Updated weights after {epoch+1}/{self.epochs}: {self.weights}")
+      logging.info(f"Updated weights after {epoch+1}/{self.epochs}: {self.weights}")
 
   def predictFun(self,X):
     X_with_bias = np.c_[X,-np.ones((len(X),1))]
@@ -54,6 +55,7 @@ class Perceptron:
     else:
       model_file_path = self._create_dir(filename,'model')
       joblib.dump(self,model_file_path)
+    logging.info(f'Model saved at {model_file_path}')
   
   def loadModel_(self, filepath):
     return joblib.load(filepath)

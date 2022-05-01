@@ -1,4 +1,5 @@
 from utils.all_utils import Data_prepare, save_plot, main
+import logging
 
 # creating entry point for code
 if __name__ == '__main__':
@@ -11,5 +12,10 @@ if __name__ == '__main__':
     ETA = 0.1
     EPOCHS = 10
 
-    main(data=OR, modelName='model_OR',plotName='model_OR.png',eta=ETA,epochs=EPOCHS)
-
+    try:
+        logging.info('>>> Started Training for "OR-Gate">>>>')
+        main(data=OR, modelName='model_OR',plotName='model_OR.png',eta=ETA,epochs=EPOCHS)
+        logging.info('<<< Finished Training for "OR-Gate"<<< \n')
+    except Exception as e:
+        logging.exception(e)
+        raise e
