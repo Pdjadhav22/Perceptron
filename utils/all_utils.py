@@ -19,6 +19,15 @@ logging.basicConfig(
 
 
 def Data_prepare(df, target='y'):
+    """Sepreates Independent & Label Features
+
+    Args:
+        df (pd.DataFrame): Input dataset
+        target (str, optional): Label column name. Defaults to 'y'.
+
+    Returns:
+        tuple: Return tuple with Independent & Labeled Features
+    """
     logging.info('Preparing Data to retrun X & y Features')
     X = df.drop(target,axis=1)
     y = df[target]
@@ -26,6 +35,14 @@ def Data_prepare(df, target='y'):
     return X,y
 
 def save_plot(df, model, filename="plot.png", plot_dir="plots"):
+    """To Save plots for Model Trainging results
+
+    Args:
+        df (pd.DataFrame): Input dataset
+        model (Variable): Name of Model instance to plot
+        filename (str, optional): Plot name to be saved as . Defaults to "plot.png".
+        plot_dir (str, optional): Plot location to be saved at. Defaults to "plots".
+    """
     def _create_base_plot(df):
         logging.info('Creating Base Plot')
         df.plot(kind="scatter", x="x1", y="x2", c="y", s=100, cmap="coolwarm")
@@ -71,6 +88,15 @@ def save_plot(df, model, filename="plot.png", plot_dir="plots"):
 
 #defining main function
 def main(data, modelName,plotName,eta,epochs):
+    """Model Training function
+
+    Args:
+        data (pd.DataFrame): Inpu dataset
+        modelName (Variable): Model instance name
+        plotName (str): Name of Plot to be saved as 
+        eta (float): Learning rate, ranges from 0 to 1
+        epochs (int): Number of epochs to train
+    """
     df = pd.DataFrame(data)
     logging.info(f"This is Raw Dataset: \n{df}")
     X,y = Data_prepare(df)
