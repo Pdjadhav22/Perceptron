@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import numpy as np
 import os
+import pandas as pd
+from utils.model import Perceptron
 
 
 def Data_prepare(df, target='y'):
@@ -50,3 +52,20 @@ def save_plot(df, model, filename="plot.png", plot_dir="plots"):
     os.makedirs(plot_dir, exist_ok=True)
     plot_path = os.path.join(plot_dir, filename)
     plt.savefig(plot_path)
+
+#defining main function
+def main(data, modelName,plotName,eta,epochs):
+    df = pd.DataFrame(data)
+    X,y = Data_prepare(df)
+
+    # Model initialising & Fittign
+    model = Perceptron(eta=eta,epochs=epochs)
+    model.fit(X,y)
+
+    # Save,Load& Predict from model
+    model.SaveModel(filename=modelName)
+    # loaded_model_AND = Perceptron().loadModel_(filepath='/content/model/model_AND')
+    # loaded_model_AND.predictFun(X=[[1,1]])
+
+    #Save Plot
+    save_plot(df,model,filename=plotName)

@@ -1,23 +1,4 @@
-import pandas as pd
-from utils.all_utils import Data_prepare, save_plot
-from utils.model import Perceptron
-
-#defining main function
-def main(data, modelName,plotName,eta,epochs):
-    df_OR = pd.DataFrame(data)
-    X,y = Data_prepare(df_OR)
-
-    # Model initialising & Fittign
-    model_OR = Perceptron(eta=eta,epochs=epochs)
-    model_OR.fit(X,y)
-
-    # Save,Load& Predict from model
-    model_OR.SaveModel(filename=modelName)
-    # loaded_model_AND = Perceptron().loadModel_(filepath='/content/model/model_AND')
-    # loaded_model_AND.predictFun(X=[[1,1]])
-
-    #Save Plot
-    save_plot(df_OR,model_OR,filename=plotName)
+from utils.all_utils import Data_prepare, save_plot, main
 
 # creating entry point for code
 if __name__ == '__main__':
